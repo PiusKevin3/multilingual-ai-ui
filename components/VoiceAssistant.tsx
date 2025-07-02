@@ -9,7 +9,7 @@ type WebSocketType = WebSocket | null;
 
 export default function VoiceAssistant() {
   const [isListening, setIsListening] = useState(false);
-  const [language, setLanguage] = useState("en");
+  const [language, setLanguage] = useState("");
   const socketRef = useRef<WebSocketType>(null);
   const audioContextRef = useRef<AudioContextType>(null);
   const processorRef = useRef<ScriptProcessorType>(null);
@@ -88,6 +88,8 @@ export default function VoiceAssistant() {
   };
 
   const initWebSocket = () => {
+    if (!language ) return;
+
     const sessionId = Date.now().toString();
     socketRef.current = new WebSocket(`${backendUrl}/ws/${sessionId}/${language}`);
 
@@ -185,9 +187,11 @@ export default function VoiceAssistant() {
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
           disabled={isListening}
-          className="w-full p-2 border rounded-md text-gray-800"
+          className="w-full p-2 border rounded-md text-gray-800 max-h-48 overflow-y-auto"
         >
+          <option value="" >===Select Language===</option>
           <option value="en">English (achernar)</option>
+          <option value="lg">Luganda (charon)</option>
           <option value="es">Spanish (achird)</option>
           <option value="fr">French (algenib)</option>
           <option value="de">German (algieba)</option>
@@ -197,6 +201,12 @@ export default function VoiceAssistant() {
           <option value="ar">Arabic (callirrhoe)</option>
           <option value="ru">Russian (charon)</option>
           <option value="pt">Portuguese (despina)</option>
+          <option value="sw">Swahili (achernar)</option>
+          <option value="ny">Runyankore (autonoe)</option>
+          <option value="luo">Luo (charon)</option>
+          <option value="xog">Lusoga (despina)</option>
+          <option value="bug">Lugisu (achird)</option>
+          <option value="ln">Lingala (algenib)</option>
         </select>
       </div>
 
